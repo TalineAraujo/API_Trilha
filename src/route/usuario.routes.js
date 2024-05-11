@@ -85,16 +85,16 @@ usuarioRoutes.get('/usuario/:id', async (req, res) => {
 
 });
 
-usuarioRoutes.get('/usuario', async (req, res) =>{
-    try{
-        const usuario = await Usuario.findAll();
-    res.json(usuario);
-    }catch(error){
-        console.error(error.massage);
-        res.status(500).json({ error: 'Erro ao buscar usuarios'})
-    }
-    
-
-})
+  usuarioRoutes.get('/usuario', async (req, res) =>{
+          try{
+              const usuario = await Usuario.findAll();
+          res.json(usuario);
+          }catch(error){
+              console.error(error.massage);
+              res.status(500).json({ error: 'Erro ao buscar usuarios'})
+          }
+          
+      
+      });
 
 module.exports = usuarioRoutes 
