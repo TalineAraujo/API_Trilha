@@ -4,6 +4,9 @@ const { connection } = require('./database/connection') // Configuração de ace
 
 const PORT_API = process.env.PORT_API 
 
+
+const usuarioRoute = require("./route/usuario.routes");
+
 class Server {
   constructor (server = express())// Argumento do constructor auto iniciado da aplicação para usarmos as devidas funções do express
   { 
@@ -14,7 +17,10 @@ class Server {
 
   async middlewares(app) {
     app.use(cors()) // Utilização da função cors dentro do servidor
+    
     app.use(express.json()) // Habilitar entrada de dados como json no servidor
+
+    app.use(usuarioRoute);
   }
 
   async database() {

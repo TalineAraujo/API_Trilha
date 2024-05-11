@@ -9,6 +9,7 @@ function validarCPF(cpf) {
     if (cpf.length !== 11 || /^(\d)\1{10}$/.test(cpf)) {
         return false; // CPF deve ter 11 dígitos e não pode ser sequencial
     }
+    return true;
 }
 
 usuarioRoutes.post('/usuario', async (req, res) => {
@@ -22,6 +23,8 @@ usuarioRoutes.post('/usuario', async (req, res) => {
             data_nascimento,
             endereco
         } = req.body;
+
+        console.log("Dados recebidos:", req.body);
 
         if (!nome) {
             return res.status(400).json({ message: 'O nome é obrigatório' });
@@ -52,9 +55,12 @@ usuarioRoutes.post('/usuario', async (req, res) => {
             email:email,
             cpf:cpf,
             sexo:sexo,
+            senha: senha,
             data_nascimento:data_nascimento,
             endereco:endereco
         });
+
+        console.log("Dados recebidos:", req.body);
 
         res.status(201).json(usuario);
     } catch (error) {
@@ -63,7 +69,32 @@ usuarioRoutes.post('/usuario', async (req, res) => {
     }
 });
 
+usuarioRoutes.get('/usuario/:id', async (req, res) => {
+    try{
+        const {id} = req.params;
+        const usuario = await Usuario.findByPk(id);
+        if (!usuario){
+            return res.status(404).json({ error: 'Usuário não encontrado!'});
+        }
 
+        res.json(usuario);
+    }catch (error){
+        console.error (error.massage);
+        res.status(500).json({ error: "erro ao buscar usuario"});
+    }
 
+});
+
+usuarioRoutes.get('/usuario', async (req, res) =>{
+    try{
+        const usuario = await Usuario.findAll();
+    res.json(usuario);
+    }catch(error){
+        console.error(error.massage);
+        res.status(500).json({ error: 'Erro ao buscar usuarios'})
+    }
+    
+
+})
 
 module.exports = usuarioRoutes 
