@@ -6,6 +6,7 @@ const PORT_API = process.env.PORT_API
 
 
 const usuarioRoute = require("./route/usuario.routes");
+const loginRoutes = require("./route/login.routes")
 
 class Server {
   constructor (server = express())// Argumento do constructor auto iniciado da aplicação para usarmos as devidas funções do express
@@ -21,6 +22,8 @@ class Server {
     app.use(express.json()) // Habilitar entrada de dados como json no servidor
 
     app.use(usuarioRoute);
+
+    app.use(loginRoutes);
   }
 
   async database() {

@@ -1,6 +1,7 @@
 const { Router } = require('express');
 const Usuario = require('../models/Usuario');
-// Importe o middleware 'auth' aqui, se necessário
+const { auth } = require('../middleware/auth');
+
 
 const usuarioRoutes = Router();
 
@@ -28,6 +29,10 @@ usuarioRoutes.post('/usuario', async (req, res) => {
 
         if (!nome) {
             return res.status(400).json({ message: 'O nome é obrigatório' });
+        }
+
+        if (!senha) {
+            return res.status(400).json({ message: 'A senha é obrigatório' });
         }
 
         if (!email) {
@@ -69,7 +74,7 @@ usuarioRoutes.post('/usuario', async (req, res) => {
     }
 });
 
-usuarioRoutes.get('/usuario/:id', async (req, res) => {
+usuarioRoutes.get('/usuario/:id', auth, async (req, res) => {
     try{
         const {id} = req.params;
         const usuario = await Usuario.findByPk(id);
@@ -85,7 +90,7 @@ usuarioRoutes.get('/usuario/:id', async (req, res) => {
 
 });
 
-  usuarioRoutes.get('/usuario', async (req, res) =>{
+  usuarioRoutes.get('/usuario', auth, async (req, res) =>{
           try{
               const usuario = await Usuario.findAll();
           res.json(usuario);
