@@ -74,6 +74,60 @@ localRoutes.get('/:local_id/maps', auth, async (req, res) => {
         return res.status(500).json({ error: 'Não foi possível obter o link do Google Maps para o local' });
     }
 });
+localRoutes.delete('/:local_id', auth, async (req, res) =>{
+  try{
+
+    const usuarioId = req.query.usuario_id; // Ajustando para 'usuario_id'
+    const local = await Local.findOne({ where: { id: req.params.local_id, usuarioId: usuarioId } });
+
+      if (!local){
+          console.log("Local não encontrado ou permissão negada.");
+          return res.status(404).json({message:'Local não encontrado ou acesso negado'})
+      }
+      await local.destroy();
+      console.log("Local excluído com sucesso.");
+
+      res.status(200).json({ message: 'Local excluído com sucesso.' });
+
+  }catch(error){
+      console.error("Erro ao excluir o local:", error);
+      return res.status(500).json({message: 'Não foi possivel excluir o local'});
+  }
+
+});
+localRoutes.put('/:local_id', auth, async (req, res) => {
+  try {
+      console.log("Iniciando atualização do local...");
+
+      const { nome, descricao, cep, } = req.body;
+
+      
+      if (!nome || !cep) {
+          return res.status(400).json({ message: 'Nome e endereço são obrigatórios!' });
+      }
+
+     
+      const usuarioId = req.query.usuario_id; // Ajustando para 'usuario_id'
+      const local = await Local.findOne({ where: { id: req.params.local_id, usuarioId: usuarioId } });
+      if (!local) {
+          console.log("Local não encontrado ou permissão negada.");
+          return res.status(404).json({ message: 'Local não encontrado ou você não tem permissão para alterar este local.' });
+      }
+
+      
+      local.nome = nome;
+      local.descricao = descricao;
+
+      await local.save();
+
+      console.log("Local atualizado com sucesso.");
+      res.status(200).json(local);
+  } catch (error) {
+      console.error("Erro ao atualizar o local:", error);
+      return res.status(500).json({ error: 'Não foi possível atualizar as informações do local.' });
+  }
+});
+  
 
 
 
