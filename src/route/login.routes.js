@@ -3,7 +3,7 @@ const loginRoutes = Router();
 const Usuario = require('../models/Usuario');
 const { sign } = require('jsonwebtoken');
 
-loginRoutes.post('/login', async (req, res) => {
+loginRoutes.post('/', async (req, res) => {
     try {    
         const email = req.body.email;
         const senha = req.body.senha;

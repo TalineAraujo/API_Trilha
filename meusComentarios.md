@@ -32,3 +32,7 @@ Consegui criar o banco de dados, mas estou com problema no postman, toda hora pr
 11/05 
 
 criei a rota login.routes.js para fazer a authencicação do usuário 
+
+npx sequelize-cli migration:generate --name create-Usuario
+npx sequelize-cli migration:generate --name create-locais
+sequelize db:migrate

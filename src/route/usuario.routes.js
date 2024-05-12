@@ -13,7 +13,7 @@ function validarCPF(cpf) {
     return true;
 }
 
-usuarioRoutes.post('/usuario', async (req, res) => {
+usuarioRoutes.post('/', async (req, res) => {
     try {
         const {
             nome,
@@ -74,7 +74,7 @@ usuarioRoutes.post('/usuario', async (req, res) => {
     }
 });
 
-usuarioRoutes.get('/usuario/:id', auth, async (req, res) => {
+usuarioRoutes.get('/:id', auth, async (req, res) => {
     try{
         const {id} = req.params;
         const usuario = await Usuario.findByPk(id);
@@ -90,7 +90,7 @@ usuarioRoutes.get('/usuario/:id', auth, async (req, res) => {
 
 });
 
-  usuarioRoutes.get('/usuario', auth, async (req, res) =>{
+  usuarioRoutes.get('/', auth, async (req, res) =>{
           try{
               const usuario = await Usuario.findAll();
           res.json(usuario);
