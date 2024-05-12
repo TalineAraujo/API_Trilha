@@ -60,6 +60,20 @@ localRoutes.get('/', auth, async (req, res) => {
         return res.status(500).json({ error: 'Não foi possível obter os locais cadastrados' });
     }
 });
+localRoutes.get('/:local_id/maps', auth, async (req, res) => {
+    try {
+        const usuarioId = req.query.usuario_id; // Ajustando para 'usuario_id'
+        const local = await Local.findOne({ where: { id: req.params.local_id, usuarioId: usuarioId } });
+        if (!local) {
+            return res.status(404).json({ message: 'Local não encontrado ou acesso não permitido' });
+        }
+        const googleMapsLink = `https://www.google.com/maps?q=${local.latitude},${local.longitude}`;
+        res.status(200).json({ googleMapsLink });
+    } catch (error) {
+        console.error(error);
+        return res.status(500).json({ error: 'Não foi possível obter o link do Google Maps para o local' });
+    }
+});
 
 
 
