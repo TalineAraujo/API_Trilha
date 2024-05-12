@@ -36,3 +36,13 @@ criei a rota login.routes.js para fazer a authencicação do usuário
 npx sequelize-cli migration:generate --name create-Usuario
 npx sequelize-cli migration:generate --name create-locais
 sequelize db:migrate
+
+
+12/05 
+
+Que diabeira foi arrumar essas rotas 
+
+para implemntar a regra de authenticação tive que criar duas variaveis para guardar os valores passados por req.query e req.params 
+fiz os teste e ficou tudo funcionando direitinho 
+Preciso verificar o sewwger e seeds 
+Criar o READMI.md 

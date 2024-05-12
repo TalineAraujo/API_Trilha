@@ -1,6 +1,7 @@
 const { Router } = require('express');
 const Usuario = require('../models/Usuario');
 const { auth } = require('../middleware/auth');
+const Local = require('../models/Local');
 
 
 const usuarioRoutes = Router();
@@ -90,7 +91,7 @@ usuarioRoutes.get('/:id', auth, async (req, res) => {
 
 });
 
-  usuarioRoutes.get('/', auth, async (req, res) =>{
+usuarioRoutes.get('/', auth, async (req, res) =>{
           try{
               const usuario = await Usuario.findAll();
           res.json(usuario);
@@ -100,6 +101,30 @@ usuarioRoutes.get('/:id', auth, async (req, res) => {
           }
           
       
-      });
+});
+usuarioRoutes.delete('/:id', auth, async (req, res) => {
+    try {
+        const  {id} = req.params;
+        const enderecoUsuario = await Local.findOne({ where: { usuarioId: id } });
+
+        if (enderecoUsuario) {
+            return res.status(400).json({ error: true, message: 'Este usuário não pode ser excluído pois possui endereços cadastrados.' });
+        }
+
+        
+        const usuarioExcluido = await Usuario.destroy({ where: { id } });
+
+        if (!usuarioExcluido) {
+            return res.status(404).json({ error: true, message: 'Usuário não encontrado.' });
+        }
+
+        res.json({ message: 'Usuário excluído com sucesso.' });
+    } catch (error) {
+        console.error(error.message);
+        res.status(500).json({ error: 'Não foi possível excluir o usuário.' });
+    }
+});
+
+
 
 module.exports = usuarioRoutes 
