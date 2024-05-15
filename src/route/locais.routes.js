@@ -19,7 +19,7 @@ localRoutes.post('/', auth, async (req, res) => {
             return res.status(400).json({ message: 'Nome, endereço e ID são obrigatórios!' });
         }
 
-        const response = await axios.get(`https://nominatim.openstreetmap.org/search?q=${cep}&format=json&countrycodes=BR`);
+        const response = await axios.get(`https://nominatim.openstreetmap.org/search?format=json&postalcode=${cep}&country=Brazil&limit=1`);
 
         if (response.data.length === 0) {
             return res.status(400).json({ message: 'Endereço não localizado' });

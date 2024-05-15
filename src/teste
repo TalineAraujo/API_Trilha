@@ -151,3 +151,17 @@
 //       return res.status(500).json({ error: 'Não foi possível atualizar as informações do local.' });
 //   }
 // });
+
+
+/*
+         #swagger.tags = ['Usuario']
+         #swagger.parameters['parametersName'] ={
+            in: 'query',
+            description:'Buscar UsuarioID' 
+    }
+    */ 
+
+  //    // Função para configurar o Swagger
+  // setupSwagger(app) {
+  //   swaggerSetup(app);
+  // }

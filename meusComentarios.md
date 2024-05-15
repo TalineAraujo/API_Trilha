@@ -46,3 +46,7 @@ para implemntar a regra de authenticação tive que criar duas variaveis para gu
 fiz os teste e ficou tudo funcionando direitinho 
 Preciso verificar o sewwger e seeds 
 Criar o READMI.md 
+
+npm install swagger-ui-express
+npm install swagger-autogen
+npm run swagger 

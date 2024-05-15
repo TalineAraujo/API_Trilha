@@ -15,6 +15,22 @@ function validarCPF(cpf) {
 }
 
 usuarioRoutes.post('/', async (req, res) => {
+    /*
+         #swagger.tags = ['Usuario'],
+         #swagger.parameters = ['body'] ={
+           in: 'body',
+           description:'Cadastra novos usuários!',
+           schema: {
+            $nome: 'Taline Araujo',
+            $email: 'taline.araujo@hotmail.com',
+            $cpf: '02602502789',
+            sexo: 'Feminino',
+            $senha: 'teste123',
+            %data_nascimento: 04/03/1996,
+            endereco: 'Vargem pequena' 
+        }   
+    }
+    */ 
     try {
         const {
             nome,
@@ -76,6 +92,15 @@ usuarioRoutes.post('/', async (req, res) => {
 });
 
 usuarioRoutes.get('/:id', auth, async (req, res) => {
+      /*
+    #swagger.tags = ['Usuario'],  
+    #swagger.parameters['nome'] = {
+            in: 'query',
+            description: 'Filtrar um curso pelo nome',
+            type: 'string'
+    } 
+    */
+
     try{
         const {id} = req.params;
         const usuario = await Usuario.findByPk(id);
