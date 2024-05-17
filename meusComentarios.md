@@ -44,7 +44,7 @@ Que diabeira foi arrumar essas rotas
 
 para implemntar a regra de authenticação tive que criar duas variaveis para guardar os valores passados por req.query e req.params 
 fiz os teste e ficou tudo funcionando direitinho 
-Preciso verificar o sewwger e seeds 
+Preciso verificar o swagger e seeders 
 Criar o READMI.md 
 
 npm install swagger-ui-express
