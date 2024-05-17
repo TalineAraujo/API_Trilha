@@ -1,0 +1,501 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "title": "API_Trilha",
+    "description": "API para cadastro de novos usuários/locais",
+    "version": "1.0.0"
+  },
+  "host": "/localhost:9000",
+  "basePath": "/",
+  "schemes": [
+    "http"
+  ],
+  "securityDefinitions": {
+    "apiKeyAuth": {
+      "type": "apiKey",
+      "in": "header",
+      "name": "authorization",
+      "description": "Token de Autenticação"
+    }
+  },
+  "paths": {
+    "/usuario/": {
+      "post": {
+        "tags": [
+          "Usuario"
+        ],
+        "description": "",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "description": "Cadastra novos usuários!",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "nome": {
+                  "type": "string",
+                  "example": "Taline Araujo"
+                },
+                "email": {
+                  "type": "string",
+                  "example": "taline.araujo@hotmail.com"
+                },
+                "cpf": {
+                  "type": "string",
+                  "example": "02602502789"
+                },
+                "sexo": {
+                  "type": "string",
+                  "example": "Feminino"
+                },
+                "senha": {
+                  "type": "string",
+                  "example": "teste123"
+                },
+                "data_nascimento": {
+                  "type": "string",
+                  "example": "1996-04-03"
+                },
+                "endereco": {
+                  "type": "string",
+                  "example": "Vargem pequena"
+                }
+              },
+              "required": [
+                "nome",
+                "email",
+                "cpf",
+                "senha",
+                "data_nascimento"
+              ]
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Created"
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      },
+      "get": {
+        "tags": [
+          "Usuario"
+        ],
+        "description": "",
+        "parameters": [
+          {
+            "name": "authorization",
+            "in": "header",
+            "type": "string"
+          },
+          {
+            "name": "Usuario",
+            "in": "query",
+            "description": "Buscar todos os usuarios",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/usuario/{id}": {
+      "get": {
+        "tags": [
+          "Usuario"
+        ],
+        "description": "",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "authorization",
+            "in": "header",
+            "type": "string"
+          },
+          {
+            "name": "ID",
+            "in": "query",
+            "description": "Filtrar usuario pelo ID",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "404": {
+            "description": "Not Found"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Usuario"
+        ],
+        "description": "",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "authorization",
+            "in": "header",
+            "type": "string"
+          },
+          {
+            "name": "Usuario_id",
+            "in": "query",
+            "description": "Excluir usuario",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "404": {
+            "description": "Not Found"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/login/": {
+      "post": {
+        "tags": [
+          "Login"
+        ],
+        "description": "",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "description": "Realizar login!",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "email": {
+                  "type": "string",
+                  "example": "taline.araujo@hotmail.com"
+                },
+                "senha": {
+                  "type": "string",
+                  "example": "teste123"
+                }
+              },
+              "required": [
+                "email",
+                "senha"
+              ]
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "404": {
+            "description": "Not Found"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/local/": {
+      "post": {
+        "tags": [
+          "Local"
+        ],
+        "description": "",
+        "parameters": [
+          {
+            "name": "authorization",
+            "in": "header",
+            "type": "string"
+          },
+          {
+            "name": "Cadastra novos locais!",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "nome": {
+                  "example": "Trilha Morro das aranhas"
+                },
+                "descricao": {
+                  "example": "Trilha de aproximadamente 45 min de subida, com uma vista para as praias do Santinho, Moçambique e Ingleses"
+                },
+                "cep": {
+                  "example": "88058-700"
+                },
+                "usuarioId": {
+                  "example": "5"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Created"
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      },
+      "get": {
+        "tags": [
+          "Local"
+        ],
+        "description": "",
+        "parameters": [
+          {
+            "name": "usuario_Id",
+            "in": "query",
+            "type": "string"
+          },
+          {
+            "name": "authorization",
+            "in": "header",
+            "type": "string"
+          },
+          {
+            "name": "Locais",
+            "in": "query",
+            "description": "Buscar todos os locais",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "404": {
+            "description": "Not Found"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/local/{local_id}/maps": {
+      "get": {
+        "tags": [
+          "Local"
+        ],
+        "description": "",
+        "parameters": [
+          {
+            "name": "local_id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "usuario_id",
+            "in": "query",
+            "type": "string"
+          },
+          {
+            "name": "authorization",
+            "in": "header",
+            "type": "string"
+          },
+          {
+            "name": "Local_id",
+            "in": "query",
+            "description": "Filtrar local pelo ID",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "404": {
+            "description": "Not Found"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/local/{local_id}": {
+      "delete": {
+        "tags": [
+          "Local"
+        ],
+        "description": "",
+        "parameters": [
+          {
+            "name": "local_id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "usuario_id",
+            "in": "query",
+            "type": "string"
+          },
+          {
+            "name": "authorization",
+            "in": "header",
+            "type": "string"
+          },
+          {
+            "name": "Usuario_id",
+            "in": "query",
+            "description": "Excluir local",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "404": {
+            "description": "Not Found"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "Local"
+        ],
+        "description": "",
+        "parameters": [
+          {
+            "name": "local_id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "usuario_id",
+            "in": "query",
+            "type": "string"
+          },
+          {
+            "name": "authorization",
+            "in": "header",
+            "type": "string"
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "description": "Atualizar endereço!",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "nome": {
+                  "type": "string",
+                  "example": "Morro das Aranhas"
+                },
+                "descrição": {
+                  "type": "string",
+                  "example": "Trilha facil"
+                },
+                "cep": {
+                  "type": "string",
+                  "example": "88058-700"
+                }
+              },
+              "required": [
+                "nome",
+                "descrição",
+                "cep"
+              ]
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "404": {
+            "description": "Not Found"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    }
+  },
+  "security": [
+    {
+      "apiKeyAuth": []
+    }
+  ]
+}
