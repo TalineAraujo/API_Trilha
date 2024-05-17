@@ -4,6 +4,18 @@ const Usuario = require('../models/Usuario');
 const { sign } = require('jsonwebtoken');
 
 loginRoutes.post('/', async (req, res) => {
+      /*
+         #swagger.tags = ['Login'],
+         #swagger.parameters = ['body'] ={
+           in: 'body',
+           description:'Realizar login!',
+           schema: {
+            $email: 'taline.araujo@hotmail.com',
+            $senha: 'teste123'
+            
+        }   
+    }
+    */ 
     try {    
         const email = req.body.email;
         const senha = req.body.senha;

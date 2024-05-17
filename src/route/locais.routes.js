@@ -7,6 +7,19 @@ const Local = require('../models/Local');
 const localRoutes = Router();
 
 localRoutes.post('/', auth, async (req, res) => {
+     /*
+        #swagger.tags = ['Local'],
+        #swagger.parameters = ['body'] ={
+           in: 'body',
+           description:'Cadastra novos locais!',
+           schema: {
+            $nome: 'Trilha Morro das aranhas',
+            $descricao: 'Trilha de aproximadamente 45 min de subida, com uma vista para as praias do Santinho, Moçambique e Ingleses',
+            $cep: '88058-700',
+            $usuarioId: '5'
+        }   
+    }
+    */ 
     try {
         const {
             nome,
@@ -43,6 +56,13 @@ localRoutes.post('/', auth, async (req, res) => {
     }
 });
 localRoutes.get('/', auth, async (req, res) => {
+     /* #swagger.tags = ['Local'],  
+        #swagger.parameters['Locais'] = {
+            in: 'query',
+            description: 'Buscar todos os locais',
+            type: 'string'
+    } 
+    */
     try {
         const usuarioId = req.query.usuario_Id; // Ajuste para acessar o usuario_Id da consulta
         const locais = await Local.findAll({ where: { usuarioId: usuarioId } });
@@ -61,6 +81,15 @@ localRoutes.get('/', auth, async (req, res) => {
     }
 });
 localRoutes.get('/:local_id/maps', auth, async (req, res) => {
+      /*
+        #swagger.tags = ['Local'],  
+        #swagger.parameters['Local_id'] = {
+            in: 'query',
+            description: 'Filtrar local pelo ID',
+            type: 'string'
+    }
+    
+    */
     try {
         const usuarioId = req.query.usuario_id; // Ajustando para 'usuario_id'
         const local = await Local.findOne({ where: { id: req.params.local_id, usuarioId: usuarioId } });
@@ -75,6 +104,13 @@ localRoutes.get('/:local_id/maps', auth, async (req, res) => {
     }
 });
 localRoutes.delete('/:local_id', auth, async (req, res) =>{
+    /*  #swagger.tags = ['Local'],  
+        #swagger.parameters['Usuario_id'] = {
+            in: 'query',
+            description: 'Excluir local',
+            type: 'string'
+    } 
+    */
   try{
 
     const usuarioId = req.query.usuario_id; // Ajustando para 'usuario_id'
@@ -96,6 +132,19 @@ localRoutes.delete('/:local_id', auth, async (req, res) =>{
 
 });
 localRoutes.put('/:local_id', auth, async (req, res) => {
+    /*
+         #swagger.tags = ['Local'],
+         #swagger.parameters = ['body'] ={
+           in: 'body',
+           description:'Atualizar endereço!',
+           schema: {
+            $nome: 'Morro das Aranhas',
+            $descrição: 'Trilha facil',
+            $cep: '88058-700'
+            
+        }   
+    }
+    */ 
   try {
       console.log("Iniciando atualização do local...");
 
@@ -123,7 +172,7 @@ localRoutes.put('/:local_id', auth, async (req, res) => {
       console.log("Local atualizado com sucesso.");
       res.status(200).json(local);
   } catch (error) {
-      console.error("Erro ao atualizar o local:", error);
+      console.error(error);
       return res.status(500).json({ error: 'Não foi possível atualizar as informações do local.' });
   }
 });

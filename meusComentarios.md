@@ -50,3 +50,6 @@ Criar o READMI.md
 npm install swagger-ui-express
 npm install swagger-autogen
 npm run swagger 
+
+
+meu olho treme, mas conferi os teste e tá tudo certo 

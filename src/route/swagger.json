@@ -5,7 +5,7 @@
     "description": "API para cadastro de novos usuários/locais",
     "version": "1.0.0"
   },
-  "host": "localhost:9000",
+  "host": "/localhost:9000",
   "basePath": "/",
   "schemes": [
     "http"
@@ -29,31 +29,46 @@
           {
             "name": "body",
             "in": "body",
+            "description": "Cadastra novos usuários!",
             "schema": {
               "type": "object",
               "properties": {
                 "nome": {
+                  "type": "string",
                   "example": "Taline Araujo"
                 },
                 "email": {
+                  "type": "string",
                   "example": "taline.araujo@hotmail.com"
                 },
                 "cpf": {
-                  "example": "02302502745"
+                  "type": "string",
+                  "example": "02602502789"
                 },
                 "sexo": {
+                  "type": "string",
                   "example": "Feminino"
                 },
                 "senha": {
+                  "type": "string",
                   "example": "teste123"
                 },
                 "data_nascimento": {
+                  "type": "string",
                   "example": "1996-04-03"
                 },
                 "endereco": {
+                  "type": "string",
                   "example": "Vargem pequena"
                 }
-              }
+              },
+              "required": [
+                "nome",
+                "email",
+                "cpf",
+                "senha",
+                "data_nascimento"
+              ]
             }
           }
         ],
@@ -70,11 +85,20 @@
         }
       },
       "get": {
+        "tags": [
+          "Usuario"
+        ],
         "description": "",
         "parameters": [
           {
             "name": "authorization",
             "in": "header",
+            "type": "string"
+          },
+          {
+            "name": "Usuario",
+            "in": "query",
+            "description": "Buscar todos os usuarios",
             "type": "string"
           }
         ],
@@ -93,6 +117,9 @@
     },
     "/usuario/{id}": {
       "get": {
+        "tags": [
+          "Usuario"
+        ],
         "description": "",
         "parameters": [
           {
@@ -107,9 +134,9 @@
             "type": "string"
           },
           {
-            "name": "nome",
+            "name": "ID",
             "in": "query",
-            "description": "Filtrar um curso pelo nome",
+            "description": "Filtrar usuario pelo ID",
             "type": "string"
           }
         ],
@@ -129,6 +156,9 @@
         }
       },
       "delete": {
+        "tags": [
+          "Usuario"
+        ],
         "description": "",
         "parameters": [
           {
@@ -140,6 +170,12 @@
           {
             "name": "authorization",
             "in": "header",
+            "type": "string"
+          },
+          {
+            "name": "Usuario_id",
+            "in": "query",
+            "description": "Excluir usuario",
             "type": "string"
           }
         ],
@@ -164,21 +200,31 @@
     },
     "/login/": {
       "post": {
+        "tags": [
+          "Login"
+        ],
         "description": "",
         "parameters": [
           {
             "name": "body",
             "in": "body",
+            "description": "Realizar login!",
             "schema": {
               "type": "object",
               "properties": {
                 "email": {
-                  "example": "any"
+                  "type": "string",
+                  "example": "taline.araujo@hotmail.com"
                 },
                 "senha": {
-                  "example": "any"
+                  "type": "string",
+                  "example": "teste123"
                 }
-              }
+              },
+              "required": [
+                "email",
+                "senha"
+              ]
             }
           }
         ],
@@ -200,6 +246,9 @@
     },
     "/local/": {
       "post": {
+        "tags": [
+          "Local"
+        ],
         "description": "",
         "parameters": [
           {
@@ -208,22 +257,22 @@
             "type": "string"
           },
           {
-            "name": "body",
+            "name": "Cadastra novos locais!",
             "in": "body",
             "schema": {
               "type": "object",
               "properties": {
                 "nome": {
-                  "example": "any"
+                  "example": "Trilha Morro das aranhas"
                 },
                 "descricao": {
-                  "example": "any"
+                  "example": "Trilha de aproximadamente 45 min de subida, com uma vista para as praias do Santinho, Moçambique e Ingleses"
                 },
                 "cep": {
-                  "example": "any"
+                  "example": "88058-700"
                 },
                 "usuarioId": {
-                  "example": "any"
+                  "example": "5"
                 }
               }
             }
@@ -245,6 +294,9 @@
         }
       },
       "get": {
+        "tags": [
+          "Local"
+        ],
         "description": "",
         "parameters": [
           {
@@ -255,6 +307,12 @@
           {
             "name": "authorization",
             "in": "header",
+            "type": "string"
+          },
+          {
+            "name": "Locais",
+            "in": "query",
+            "description": "Buscar todos os locais",
             "type": "string"
           }
         ],
@@ -276,6 +334,9 @@
     },
     "/local/{local_id}/maps": {
       "get": {
+        "tags": [
+          "Local"
+        ],
         "description": "",
         "parameters": [
           {
@@ -292,6 +353,12 @@
           {
             "name": "authorization",
             "in": "header",
+            "type": "string"
+          },
+          {
+            "name": "Local_id",
+            "in": "query",
+            "description": "Filtrar local pelo ID",
             "type": "string"
           }
         ],
@@ -313,6 +380,9 @@
     },
     "/local/{local_id}": {
       "delete": {
+        "tags": [
+          "Local"
+        ],
         "description": "",
         "parameters": [
           {
@@ -329,6 +399,12 @@
           {
             "name": "authorization",
             "in": "header",
+            "type": "string"
+          },
+          {
+            "name": "Usuario_id",
+            "in": "query",
+            "description": "Excluir local",
             "type": "string"
           }
         ],
@@ -348,6 +424,9 @@
         }
       },
       "put": {
+        "tags": [
+          "Local"
+        ],
         "description": "",
         "parameters": [
           {
@@ -369,19 +448,28 @@
           {
             "name": "body",
             "in": "body",
+            "description": "Atualizar endereço!",
             "schema": {
               "type": "object",
               "properties": {
                 "nome": {
-                  "example": "any"
+                  "type": "string",
+                  "example": "Morro das Aranhas"
                 },
-                "descricao": {
-                  "example": "any"
+                "descrição": {
+                  "type": "string",
+                  "example": "Trilha facil"
                 },
                 "cep": {
-                  "example": "any"
+                  "type": "string",
+                  "example": "88058-700"
                 }
-              }
+              },
+              "required": [
+                "nome",
+                "descrição",
+                "cep"
+              ]
             }
           }
         ],

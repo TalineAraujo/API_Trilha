@@ -6,7 +6,7 @@ const doc = {
     description: 'API para cadastro de novos usuários/locais',
     version: '1.0.0'
   },
-  host: 'http://localhost:9000',
+  host: '/localhost:9000',
   security: [{"apiKeyAuth": []}],
   securityDefinitions: {
     apiKeyAuth: {

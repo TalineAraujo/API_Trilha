@@ -26,7 +26,7 @@ usuarioRoutes.post('/', async (req, res) => {
             $cpf: '02602502789',
             sexo: 'Feminino',
             $senha: 'teste123',
-            %data_nascimento: 04/03/1996,
+            $data_nascimento: '1996-04-03',
             endereco: 'Vargem pequena' 
         }   
     }
@@ -42,7 +42,7 @@ usuarioRoutes.post('/', async (req, res) => {
             endereco
         } = req.body;
 
-        console.log("Dados recebidos:", req.body);
+        
 
         if (!nome) {
             return res.status(400).json({ message: 'O nome é obrigatório' });
@@ -82,7 +82,7 @@ usuarioRoutes.post('/', async (req, res) => {
             endereco:endereco
         });
 
-        console.log("Dados recebidos:", req.body);
+        
 
         res.status(201).json(usuario);
     } catch (error) {
@@ -93,12 +93,13 @@ usuarioRoutes.post('/', async (req, res) => {
 
 usuarioRoutes.get('/:id', auth, async (req, res) => {
       /*
-    #swagger.tags = ['Usuario'],  
-    #swagger.parameters['nome'] = {
+        #swagger.tags = ['Usuario'],  
+        #swagger.parameters['ID'] = {
             in: 'query',
-            description: 'Filtrar um curso pelo nome',
+            description: 'Filtrar usuario pelo ID',
             type: 'string'
-    } 
+    }
+    
     */
 
     try{
@@ -117,6 +118,13 @@ usuarioRoutes.get('/:id', auth, async (req, res) => {
 });
 
 usuarioRoutes.get('/', auth, async (req, res) =>{
+   /*   #swagger.tags = ['Usuario'],  
+        #swagger.parameters['Usuario'] = {
+            in: 'query',
+            description: 'Buscar todos os usuarios',
+            type: 'string'
+    } 
+    */
           try{
               const usuario = await Usuario.findAll();
           res.json(usuario);
@@ -128,6 +136,13 @@ usuarioRoutes.get('/', auth, async (req, res) =>{
       
 });
 usuarioRoutes.delete('/:id', auth, async (req, res) => {
+    /*  #swagger.tags = ['Usuario'],  
+        #swagger.parameters['Usuario_id'] = {
+            in: 'query',
+            description: 'Excluir usuario',
+            type: 'string'
+    } 
+    */
     try {
         const  {id} = req.params;
         const enderecoUsuario = await Local.findOne({ where: { usuarioId: id } });
