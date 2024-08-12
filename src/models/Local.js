@@ -26,7 +26,7 @@ const Local = connection.define('locais', {
         type: DataTypes.FLOAT
     },
 
-    usuarioId: {
+    usuario_Id: {
         type: DataTypes.INTEGER,
         allowNull: false,
         references: {
@@ -34,6 +34,8 @@ const Local = connection.define('locais', {
             key: 'id' 
         }
     },
+
+    
 
     createdAt: {
         type: DataTypes.DATE,

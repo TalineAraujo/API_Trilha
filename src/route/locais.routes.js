@@ -25,11 +25,11 @@ localRoutes.post('/', auth, async (req, res) => {
             nome,
             descricao,
             cep,
-            usuarioId
+            usuario_Id
         } = req.body;
 
-        if (!nome || !cep || !usuarioId) {
-            return res.status(400).json({ message: 'Nome, endereço e ID são obrigatórios!' });
+        if (!nome || !cep ) {
+            return res.status(400).json({ message: 'Nome e endereço são obrigatórios!' });
         }
 
         const response = await axios.get(`https://nominatim.openstreetmap.org/search?format=json&postalcode=${cep}&country=Brazil&limit=1`);
@@ -45,7 +45,7 @@ localRoutes.post('/', auth, async (req, res) => {
             descricao,
             latitude: parseFloat(lat),
             longitude: parseFloat(lon),
-            usuarioId
+            usuario_Id
         });
 
         res.status(201).json(novoLocal);
@@ -64,7 +64,7 @@ localRoutes.get('/', auth, async (req, res) => {
     } 
     */
     try {
-        const usuarioId = req.query.usuario_Id; // Ajuste para acessar o usuario_Id da consulta
+        const usuarioId = req.query.usuario_Id; 
         const locais = await Local.findAll({ where: { usuarioId: usuarioId } });
 
   
@@ -91,7 +91,7 @@ localRoutes.get('/:local_id/maps', auth, async (req, res) => {
     
     */
     try {
-        const usuarioId = req.query.usuario_id; // Ajustando para 'usuario_id'
+        const usuarioId = req.query.usuario_id; 
         const local = await Local.findOne({ where: { id: req.params.local_id, usuarioId: usuarioId } });
         if (!local) {
             return res.status(404).json({ message: 'Local não encontrado ou acesso não permitido' });
@@ -113,7 +113,7 @@ localRoutes.delete('/:local_id', auth, async (req, res) =>{
     */
   try{
 
-    const usuarioId = req.query.usuario_id; // Ajustando para 'usuario_id'
+    const usuarioId = req.query.usuario_id; 
     const local = await Local.findOne({ where: { id: req.params.local_id, usuarioId: usuarioId } });
 
       if (!local){
@@ -156,7 +156,7 @@ localRoutes.put('/:local_id', auth, async (req, res) => {
       }
 
      
-      const usuarioId = req.query.usuario_id; // Ajustando para 'usuario_id'
+      const usuarioId = req.query.usuario_id; 
       const local = await Local.findOne({ where: { id: req.params.local_id, usuarioId: usuarioId } });
       if (!local) {
           console.log("Local não encontrado ou permissão negada.");

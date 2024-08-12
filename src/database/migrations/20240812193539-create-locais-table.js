@@ -1,6 +1,5 @@
 'use strict';
 
-/** @type {import('sequelize-cli').Migration} */
 module.exports = {
   async up(queryInterface, Sequelize) {
     await queryInterface.createTable('locais', {
@@ -23,11 +22,15 @@ module.exports = {
       longitude: {
         type: Sequelize.FLOAT
       },
-      usuarioId: {
+      pratica_esportiva: {
+        type: Sequelize.STRING,
+        allowNull: false
+      },
+      usuario_Id: {
         type: Sequelize.INTEGER,
         allowNull: false,
         references: {
-          model: 'usuarios', // nome da tabela de referência
+          model: 'usuarios',
           key: 'id'
         }
       },

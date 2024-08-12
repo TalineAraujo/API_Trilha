@@ -1,17 +1,30 @@
-const { verify } = require("jsonwebtoken")
+const { verify } = require("jsonwebtoken");
 
-async function auth (req, res, next){
-    try{
-       const {authorization} = req.headers
+async function auth(req, res, next) {
+    try {
+        const authHeader = req.headers['authorization'];
+        if (!authHeader) {
+            console.log("Token não fornecido!");
+            return res.status(401).json({ message: "Token não fornecido!" });
+        }
 
-       req['payload'] = verify(authorization, process.env.SECRET_JWT )
+        const token = authHeader.split(' ')[1];
+        if (!token) {
+            console.log("Formato de token inválido!");
+            return res.status(401).json({ message: "Formato de token inválido!" });
+        }
 
-       next()
+        const payload = verify(token, process.env.SECRET_JWT);
+        console.log("Payload do token:", payload);
 
-    }catch(error){
-        return res.status(401).json({message: "Token inválido!", cause: error.message})
+        req.payload = payload;
+        next();
+    } catch (error) {
+        console.log("Erro ao verificar token:", error.message);
+        return res.status(401).json({ message: "Token inválido!", cause: error.message });
     }
-
 }
 
-module.exports = {auth}
+module.exports = { auth };
+
+

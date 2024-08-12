@@ -93,7 +93,7 @@ usuarioRoutes.post('/', async (req, res) => {
 
 usuarioRoutes.get('/:id', auth, async (req, res) => {
       /*
-        #swagger.tags = ['Usuario'],  
+        #swagger.tags = ['Usuarios'],  
         #swagger.parameters['ID'] = {
             in: 'query',
             description: 'Filtrar usuario pelo ID',

@@ -19,7 +19,7 @@
     }
   },
   "paths": {
-    "/usuario/": {
+    "/usuarios/": {
       "post": {
         "tags": [
           "Usuario"
@@ -115,10 +115,10 @@
         }
       }
     },
-    "/usuario/{id}": {
+    "/usuarios/{id}": {
       "get": {
         "tags": [
-          "Usuario"
+          "Usuarios"
         ],
         "description": "",
         "parameters": [
@@ -246,9 +246,6 @@
     },
     "/local/": {
       "post": {
-        "tags": [
-          "Local"
-        ],
         "description": "",
         "parameters": [
           {
@@ -257,22 +254,19 @@
             "type": "string"
           },
           {
-            "name": "Cadastra novos locais!",
+            "name": "body",
             "in": "body",
             "schema": {
               "type": "object",
               "properties": {
                 "nome": {
-                  "example": "Trilha Morro das aranhas"
+                  "example": "any"
                 },
                 "descricao": {
-                  "example": "Trilha de aproximadamente 45 min de subida, com uma vista para as praias do Santinho, Moçambique e Ingleses"
+                  "example": "any"
                 },
                 "cep": {
-                  "example": "88058-700"
-                },
-                "usuarioId": {
-                  "example": "5"
+                  "example": "any"
                 }
               }
             }
@@ -299,11 +293,6 @@
         ],
         "description": "",
         "parameters": [
-          {
-            "name": "usuario_Id",
-            "in": "query",
-            "type": "string"
-          },
           {
             "name": "authorization",
             "in": "header",
@@ -343,11 +332,6 @@
             "name": "local_id",
             "in": "path",
             "required": true,
-            "type": "string"
-          },
-          {
-            "name": "usuario_id",
-            "in": "query",
             "type": "string"
           },
           {
@@ -392,11 +376,6 @@
             "type": "string"
           },
           {
-            "name": "usuario_id",
-            "in": "query",
-            "type": "string"
-          },
-          {
             "name": "authorization",
             "in": "header",
             "type": "string"
@@ -436,11 +415,6 @@
             "type": "string"
           },
           {
-            "name": "usuario_id",
-            "in": "query",
-            "type": "string"
-          },
-          {
             "name": "authorization",
             "in": "header",
             "type": "string"
@@ -456,9 +430,9 @@
                   "type": "string",
                   "example": "Morro das Aranhas"
                 },
-                "descrição": {
+                "descricao": {
                   "type": "string",
-                  "example": "Trilha facil"
+                  "example": "Trilha fácil"
                 },
                 "cep": {
                   "type": "string",
@@ -467,7 +441,7 @@
               },
               "required": [
                 "nome",
-                "descrição",
+                "descricao",
                 "cep"
               ]
             }
