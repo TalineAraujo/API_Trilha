@@ -34,8 +34,11 @@ const Local = connection.define('locais', {
             key: 'id' 
         }
     },
+    pratica_esportiva: {
+        type: DataTypes.STRING,
+        allowNull: false 
 
-    
+    },
 
     createdAt: {
         type: DataTypes.DATE,
@@ -43,7 +46,9 @@ const Local = connection.define('locais', {
     }
 
 
+
 });
 
-Usuario.hasMany(Local);
+Usuario.hasMany(Local, { foreignKey: 'usuario_Id' });
+Local.belongsTo(Usuario, { foreignKey: 'usuario_Id' });
 module.exports = Local;

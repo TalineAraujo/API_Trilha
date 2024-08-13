@@ -246,6 +246,9 @@
     },
     "/local/": {
       "post": {
+        "tags": [
+          "Local"
+        ],
         "description": "",
         "parameters": [
           {
@@ -256,19 +259,33 @@
           {
             "name": "body",
             "in": "body",
+            "description": "Cadastra novos locais!",
             "schema": {
               "type": "object",
               "properties": {
                 "nome": {
-                  "example": "any"
+                  "type": "string",
+                  "example": "Trilha Morro das Aranhas"
                 },
                 "descricao": {
-                  "example": "any"
+                  "type": "string",
+                  "example": "Trilha de aproximadamente 45 min de subida, com uma vista para as praias do Santinho, Moçambique e Ingleses"
                 },
                 "cep": {
-                  "example": "any"
+                  "type": "string",
+                  "example": "88058-700"
+                },
+                "usuario_Id": {
+                  "type": "string",
+                  "example": "5"
                 }
-              }
+              },
+              "required": [
+                "nome",
+                "descricao",
+                "cep",
+                "usuario_Id"
+              ]
             }
           }
         ],
@@ -293,6 +310,11 @@
         ],
         "description": "",
         "parameters": [
+          {
+            "name": "usuario_Id",
+            "in": "query",
+            "type": "string"
+          },
           {
             "name": "authorization",
             "in": "header",
@@ -332,6 +354,11 @@
             "name": "local_id",
             "in": "path",
             "required": true,
+            "type": "string"
+          },
+          {
+            "name": "usuario_Id",
+            "in": "query",
             "type": "string"
           },
           {
@@ -376,6 +403,11 @@
             "type": "string"
           },
           {
+            "name": "usuario_Id",
+            "in": "query",
+            "type": "string"
+          },
+          {
             "name": "authorization",
             "in": "header",
             "type": "string"
@@ -412,6 +444,11 @@
             "name": "local_id",
             "in": "path",
             "required": true,
+            "type": "string"
+          },
+          {
+            "name": "usuario_Id",
+            "in": "query",
             "type": "string"
           },
           {
