@@ -21,54 +21,36 @@
   "paths": {
     "/usuarios/": {
       "post": {
-        "tags": [
-          "Usuario"
-        ],
         "description": "",
         "parameters": [
           {
             "name": "body",
             "in": "body",
-            "description": "Cadastra novos usuários!",
             "schema": {
               "type": "object",
               "properties": {
                 "nome": {
-                  "type": "string",
-                  "example": "Taline Araujo"
+                  "example": "any"
                 },
                 "email": {
-                  "type": "string",
-                  "example": "taline.araujo@hotmail.com"
+                  "example": "any"
                 },
                 "cpf": {
-                  "type": "string",
-                  "example": "02602502789"
+                  "example": "any"
                 },
                 "sexo": {
-                  "type": "string",
-                  "example": "Feminino"
+                  "example": "any"
                 },
                 "senha": {
-                  "type": "string",
-                  "example": "teste123"
+                  "example": "any"
                 },
                 "data_nascimento": {
-                  "type": "string",
-                  "example": "1996-04-03"
+                  "example": "any"
                 },
                 "endereco": {
-                  "type": "string",
-                  "example": "Vargem pequena"
+                  "example": "any"
                 }
-              },
-              "required": [
-                "nome",
-                "email",
-                "cpf",
-                "senha",
-                "data_nascimento"
-              ]
+              }
             }
           }
         ],
@@ -85,20 +67,11 @@
         }
       },
       "get": {
-        "tags": [
-          "Usuario"
-        ],
         "description": "",
         "parameters": [
           {
             "name": "authorization",
             "in": "header",
-            "type": "string"
-          },
-          {
-            "name": "Usuario",
-            "in": "query",
-            "description": "Buscar todos os usuarios",
             "type": "string"
           }
         ],
@@ -117,9 +90,6 @@
     },
     "/usuarios/{id}": {
       "get": {
-        "tags": [
-          "Usuarios"
-        ],
         "description": "",
         "parameters": [
           {
@@ -131,12 +101,6 @@
           {
             "name": "authorization",
             "in": "header",
-            "type": "string"
-          },
-          {
-            "name": "ID",
-            "in": "query",
-            "description": "Filtrar usuario pelo ID",
             "type": "string"
           }
         ],
@@ -156,9 +120,6 @@
         }
       },
       "delete": {
-        "tags": [
-          "Usuario"
-        ],
         "description": "",
         "parameters": [
           {
@@ -170,12 +131,6 @@
           {
             "name": "authorization",
             "in": "header",
-            "type": "string"
-          },
-          {
-            "name": "Usuario_id",
-            "in": "query",
-            "description": "Excluir usuario",
             "type": "string"
           }
         ],
@@ -244,7 +199,7 @@
         }
       }
     },
-    "/local/": {
+    "/local/local": {
       "post": {
         "tags": [
           "Local"
@@ -265,7 +220,7 @@
               "properties": {
                 "nome": {
                   "type": "string",
-                  "example": "Trilha Morro das Aranhas"
+                  "example": "Trilha Morro das aranhas"
                 },
                 "descricao": {
                   "type": "string",
@@ -275,7 +230,7 @@
                   "type": "string",
                   "example": "88058-700"
                 },
-                "usuario_Id": {
+                "usuarioId": {
                   "type": "string",
                   "example": "5"
                 }
@@ -284,7 +239,7 @@
                 "nome",
                 "descricao",
                 "cep",
-                "usuario_Id"
+                "usuarioId"
               ]
             }
           }
@@ -303,7 +258,9 @@
             "description": "Internal Server Error"
           }
         }
-      },
+      }
+    },
+    "/local/": {
       "get": {
         "tags": [
           "Local"
@@ -357,7 +314,7 @@
             "type": "string"
           },
           {
-            "name": "usuario_Id",
+            "name": "usuario_id",
             "in": "query",
             "type": "string"
           },
@@ -403,7 +360,7 @@
             "type": "string"
           },
           {
-            "name": "usuario_Id",
+            "name": "usuario_id",
             "in": "query",
             "type": "string"
           },
@@ -447,7 +404,7 @@
             "type": "string"
           },
           {
-            "name": "usuario_Id",
+            "name": "usuario_id",
             "in": "query",
             "type": "string"
           },
@@ -467,9 +424,9 @@
                   "type": "string",
                   "example": "Morro das Aranhas"
                 },
-                "descricao": {
+                "descrição": {
                   "type": "string",
-                  "example": "Trilha fácil"
+                  "example": "Trilha facil"
                 },
                 "cep": {
                   "type": "string",
@@ -478,7 +435,7 @@
               },
               "required": [
                 "nome",
-                "descricao",
+                "descrição",
                 "cep"
               ]
             }

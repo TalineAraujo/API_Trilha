@@ -36,17 +36,12 @@ const Local = connection.define('locais', {
     },
     pratica_esportiva: {
         type: DataTypes.STRING,
-        allowNull: false 
-
-    },
-
+        allowNull: false
+    }, 
     createdAt: {
         type: DataTypes.DATE,
         defaultValue: DataTypes.NOW,
     }
-
-
-
 });
 
 Usuario.hasMany(Local, { foreignKey: 'usuario_Id' });
