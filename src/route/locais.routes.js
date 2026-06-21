@@ -15,24 +15,30 @@ localRoutes.post('/', auth, async (req, res) => {
            schema: {
             $nome: 'Trilha Morro das aranhas',
             $descricao: 'Trilha de aproximadamente 45 min de subida, com uma vista para as praias do Santinho, Moçambique e Ingleses',
-            $cep: '88058-700',
-            $usuarioId: '5'
-        }   
+            $cep: '88058-700'
+        }
     }
-    */ 
+    */
     try {
-        const {
-            nome,
-            descricao,
-            cep,
-            usuarioId
-        } = req.body;
+        const { nome, descricao, cep } = req.body;
+        const usuarioId = req.payload.sub;
 
-        if (!nome || !cep || !usuarioId) {
-            return res.status(400).json({ message: 'Nome, endereço e ID são obrigatórios!' });
+        if (!nome || !cep) {
+            return res.status(400).json({ message: 'Nome e endereço são obrigatórios!' });
         }
 
-        const response = await axios.get(`https://nominatim.openstreetmap.org/search?format=json&postalcode=${cep}&country=Brazil&limit=1`);
+        const viaCepResponse = await axios.get(`https://viacep.com.br/ws/${cep}/json/`);
+
+        if (viaCepResponse.data.erro) {
+            return res.status(400).json({ message: 'CEP não encontrado' });
+        }
+
+        const { logradouro, bairro, localidade, uf } = viaCepResponse.data;
+        const enderecoCompleto = `${logradouro}, ${bairro}, ${localidade}, ${uf}, Brazil`;
+
+        const response = await axios.get(`https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(enderecoCompleto)}&limit=1`, {
+            headers: { 'User-Agent': 'PathFinder/1.0 (talinearaujo79@gmail.com)' }
+        });
 
         if (response.data.length === 0) {
             return res.status(400).json({ message: 'Endereço não localizado' });
@@ -43,6 +49,7 @@ localRoutes.post('/', auth, async (req, res) => {
         const novoLocal = await Local.create({
             nome,
             descricao,
+            cep,
             latitude: parseFloat(lat),
             longitude: parseFloat(lon),
             usuarioId
@@ -64,22 +71,26 @@ localRoutes.get('/', auth, async (req, res) => {
     } 
     */
     try {
-        const usuarioId = req.query.usuario_Id; // Ajuste para acessar o usuario_Id da consulta
-        const locais = await Local.findAll({ where: { usuarioId: usuarioId } });
-
-  
-        if (!locais || locais.length === 0) {
-            return res.status(404).json({ message: 'Nenhum local cadastrado' });
-        }
-
-        
+        const locais = await Local.findAll();
         res.status(200).json(locais);
-
     } catch (error) {
         console.error(error);
         return res.status(500).json({ error: 'Não foi possível obter os locais cadastrados' });
     }
 });
+localRoutes.get('/:local_id', auth, async (req, res) => {
+    try {
+        const local = await Local.findByPk(req.params.local_id);
+        if (!local) {
+            return res.status(404).json({ message: 'Local não encontrado' });
+        }
+        res.status(200).json(local);
+    } catch (error) {
+        console.error(error);
+        return res.status(500).json({ error: 'Não foi possível obter o local' });
+    }
+});
+
 localRoutes.get('/:local_id/maps', auth, async (req, res) => {
       /*
         #swagger.tags = ['Local'],  
@@ -91,7 +102,7 @@ localRoutes.get('/:local_id/maps', auth, async (req, res) => {
     
     */
     try {
-        const usuarioId = req.query.usuario_id; // Ajustando para 'usuario_id'
+        const usuarioId = req.payload.sub;
         const local = await Local.findOne({ where: { id: req.params.local_id, usuarioId: usuarioId } });
         if (!local) {
             return res.status(404).json({ message: 'Local não encontrado ou acesso não permitido' });
@@ -113,7 +124,7 @@ localRoutes.delete('/:local_id', auth, async (req, res) =>{
     */
   try{
 
-    const usuarioId = req.query.usuario_id; // Ajustando para 'usuario_id'
+    const usuarioId = req.payload.sub;
     const local = await Local.findOne({ where: { id: req.params.local_id, usuarioId: usuarioId } });
 
       if (!local){
@@ -146,30 +157,45 @@ localRoutes.put('/:local_id', auth, async (req, res) => {
     }
     */ 
   try {
-      console.log("Iniciando atualização do local...");
+      const { nome, descricao, cep } = req.body;
 
-      const { nome, descricao, cep, } = req.body;
-
-      
       if (!nome || !cep) {
           return res.status(400).json({ message: 'Nome e endereço são obrigatórios!' });
       }
 
-     
-      const usuarioId = req.query.usuario_id; // Ajustando para 'usuario_id'
+      const usuarioId = req.payload.sub;
       const local = await Local.findOne({ where: { id: req.params.local_id, usuarioId: usuarioId } });
       if (!local) {
-          console.log("Local não encontrado ou permissão negada.");
           return res.status(404).json({ message: 'Local não encontrado ou você não tem permissão para alterar este local.' });
       }
 
-      
+      const viaCepResponse = await axios.get(`https://viacep.com.br/ws/${cep}/json/`);
+
+      if (viaCepResponse.data.erro) {
+          return res.status(400).json({ message: 'CEP não encontrado' });
+      }
+
+      const { logradouro, bairro, localidade, uf } = viaCepResponse.data;
+      const enderecoCompleto = `${logradouro}, ${bairro}, ${localidade}, ${uf}, Brazil`;
+
+      const nominatimResponse = await axios.get(`https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(enderecoCompleto)}&limit=1`, {
+          headers: { 'User-Agent': 'PathFinder/1.0 (talinearaujo79@gmail.com)' }
+      });
+
+      if (nominatimResponse.data.length === 0) {
+          return res.status(400).json({ message: 'Endereço não localizado' });
+      }
+
+      const { lat, lon } = nominatimResponse.data[0];
+
       local.nome = nome;
       local.descricao = descricao;
+      local.cep = cep;
+      local.latitude = parseFloat(lat);
+      local.longitude = parseFloat(lon);
 
       await local.save();
 
-      console.log("Local atualizado com sucesso.");
       res.status(200).json(local);
   } catch (error) {
       console.error(error);

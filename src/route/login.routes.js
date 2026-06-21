@@ -2,6 +2,7 @@ const { Router } = require('express');
 const loginRoutes = Router();
 const Usuario = require('../models/Usuario');
 const { sign } = require('jsonwebtoken');
+const bcrypt = require('bcrypt');
 
 loginRoutes.post('/', async (req, res) => {
       /*
@@ -28,18 +29,16 @@ loginRoutes.post('/', async (req, res) => {
             return res.status(400).json({ message: 'A senha é obrigatória!' });
         }
 
-        const usuario = await Usuario.findOne({
-            where: { email: email, senha: senha }
-        });
+        const usuario = await Usuario.findOne({ where: { email: email } });
 
-        if (!usuario) {
+        if (!usuario || !(await bcrypt.compare(senha, usuario.senha))) {
             return res.status(404).json({ message: 'Não foi encontrado usuário correspondente aos dados fornecidos' });
         }
 
         const payload = { sub: usuario.id, email: usuario.email, nome: usuario.nome };
         const token = sign(payload, process.env.SECRET_JWT);
 
-        res.status(200).json({ token: token });
+        res.status(200).json({ token: token, usuarioId: usuario.id });
     } catch(error) {
         console.error(error.message);
         res.status(500).json({ error: 'Erro ao logar!' });

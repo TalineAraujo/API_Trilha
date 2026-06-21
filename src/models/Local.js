@@ -18,6 +18,10 @@ const Local = connection.define('locais', {
         type: DataTypes.TEXT
     },
 
+    cep: {
+        type: DataTypes.STRING
+    },
+
     latitude:{
         type: DataTypes.FLOAT
     },

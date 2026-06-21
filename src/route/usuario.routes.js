@@ -2,6 +2,7 @@ const { Router } = require('express');
 const Usuario = require('../models/Usuario');
 const { auth } = require('../middleware/auth');
 const Local = require('../models/Local');
+const bcrypt = require('bcrypt');
 
 
 const usuarioRoutes = Router();
@@ -72,19 +73,22 @@ usuarioRoutes.post('/', async (req, res) => {
             return res.status(400).json({ message: 'A data de nascimento não está no formato correto' });
         }
 
+        const senhaHash = await bcrypt.hash(senha, 10);
         const usuario = await Usuario.create({
             nome:nome,
             email:email,
             cpf:cpf,
             sexo:sexo,
-            senha: senha,
+            senha: senhaHash,
             data_nascimento:data_nascimento,
             endereco:endereco
         });
 
         
 
-        res.status(201).json(usuario);
+        const usuarioResposta = usuario.toJSON();
+        delete usuarioResposta.senha;
+        res.status(201).json(usuarioResposta);
     } catch (error) {
         console.error(error.message);
         res.status(500).json({ error: 'Não foi possível cadastrar o usuário' });
@@ -109,9 +113,11 @@ usuarioRoutes.get('/:id', auth, async (req, res) => {
             return res.status(404).json({ error: 'Usuário não encontrado!'});
         }
 
-        res.json(usuario);
+        const usuarioResposta = usuario.toJSON();
+        delete usuarioResposta.senha;
+        res.json(usuarioResposta);
     }catch (error){
-        console.error (error.massage);
+        console.error (error.message);
         res.status(500).json({ error: "erro ao buscar usuario"});
     }
 
@@ -127,9 +133,14 @@ usuarioRoutes.get('/', auth, async (req, res) =>{
     */
           try{
               const usuario = await Usuario.findAll();
-          res.json(usuario);
+          const usuariosResposta = usuario.map(u => {
+              const dados = u.toJSON();
+              delete dados.senha;
+              return dados;
+          });
+          res.json(usuariosResposta);
           }catch(error){
-              console.error(error.massage);
+              console.error(error.message);
               res.status(500).json({ error: 'Erro ao buscar usuarios'})
           }
           

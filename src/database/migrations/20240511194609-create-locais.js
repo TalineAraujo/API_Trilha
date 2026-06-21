@@ -17,6 +17,9 @@ module.exports = {
       descricao: {
         type: Sequelize.TEXT
       },
+      cep: {
+        type: Sequelize.STRING
+      },
       latitude: {
         type: Sequelize.FLOAT
       },
